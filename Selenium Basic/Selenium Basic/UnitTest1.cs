@@ -3,6 +3,9 @@ using NUnit.Framework.Constraints;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System;
 using System.Threading;
 
@@ -12,17 +15,6 @@ namespace Selenium_Basic
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        public bool IsElementPresent(By xpath)
-        {
-            try
-            {
-                return driver.FindElement(xpath).Displayed;
-            }
-            catch (NoSuchElementException e)
-            {
-                return false;
-            }
-        }
         [SetUp]
         public void Setup()
         {
@@ -89,8 +81,14 @@ namespace Selenium_Basic
             driver.FindElement(By.XPath("//div[2]/div[1]/a[@href='/Product']")).Click();
             driver.FindElement(By.XPath("//following-sibling::tr/td[contains(.,'addfortest')]/../td/a[contains(text(),'Remove')]")).Click();
             driver.SwitchTo().Alert().Accept();
-            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//td[contains(.,'addfortest')]")));
-            Assert.False(IsElementPresent(By.XPath("//td[contains(.,'addfortest')]")));
+            wait.Until(dr => { 
+                var seartchElements = driver.FindElements(By.XPath("//td[contains(.,\'addfortest\')]"));
+                return (seartchElements.Count == 0);
+            });
+            {
+                var seartchElements = driver.FindElements(By.XPath("//td[contains(.,\'addfortest\')]"));
+                Assert.True(seartchElements.Count == 0);
+            }
             driver.FindElement(By.XPath("//a[@href='/Account/Logout']")).Click();
             var loginElement = driver.FindElement(By.XPath("//h2[contains(text(),'Login')]"));
             Assert.IsTrue("Login" == loginElement.Text);
