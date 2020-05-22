@@ -9,24 +9,36 @@ namespace Selenium_Basic
 {
     public class Tests
     {
+        private string baseUrl;
+        private const string baseName = "user";
+        private const string basePassword = "user";
+        private const string hPageElement = "Home page";
+        private const string allPrElement = "All Products";
+        private const string pName = "addfortest";
+        private const string catV = "3";
+        private const string supV = "4";
+        private const string uPrice = "300";
+        private const string qPerUnit = "35";
+        private const string uInStock = "1";
+        private const string uOnOrder = "1321";
+        private const string rLevel = "1";
+        private const string discontinued = "true";
+        private const string titelLogin = "Login";
         private IWebDriver driver;
         private WebDriverWait wait;
-        public bool IsElementPresent(By xpath)
-        {
-            try
-            {
-                return driver.FindElement(xpath).Displayed;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
+        private ForMetods forMetods;
+        private PageLogin pageLogin;
+        private PageHomePage pageHomePage;
+        private PageAllProducts pageAllProducts;
+        private PageCreate pageCreate;
+        private PageEditProduct pageEditProduct;
+
         [SetUp]
         public void Setup()
         {
             driver = new ChromeDriver();
-            driver.Navigate().GoToUrl("http://localhost:5000/Account/Login?ReturnUrl=%2F");
+            baseUrl = "http://localhost:5000/Account/Login?ReturnUrl=%2F";
+            driver.Navigate().GoToUrl(baseUrl);
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));  
@@ -34,65 +46,52 @@ namespace Selenium_Basic
         [SetUp]
         public void Login()
         {
-            driver.FindElement(By.XPath("//input[@id='Name']")).SendKeys("user");
-            driver.FindElement(By.XPath("//input[@id='Password']")).SendKeys("user");
-            driver.FindElement(By.XPath("//input[@class='btn btn-default']")).Click();
+            pageLogin = new PageLogin(driver);          
+            pageLogin.LoginNwApp(baseName, basePassword);
         }
         [Test,Order(1)]
         public void TestLogAndCreat()
         {
-            var hPageElement = driver.FindElement(By.XPath("//h2[contains(text(),'Home page')]"));
-            Assert.IsTrue("Home page"== hPageElement.Text);
-            driver.FindElement(By.XPath("//div[2]/div[1]/a[@href='/Product']")).Click();
-            driver.FindElement(By.XPath("//a[@href='/Product/Create']")).Click();
-            driver.FindElement(By.XPath("//input[@id='ProductName']")).SendKeys("addfortest");
-            driver.FindElement(By.XPath("//select[@id='CategoryId']//option[@value='2']")).Click();
-            driver.FindElement(By.XPath("//select[@id='SupplierId']//option[@value='3']")).Click();
-            driver.FindElement(By.XPath("//input[@id='UnitPrice']")).SendKeys("300");
-            driver.FindElement(By.XPath("//input[@id='QuantityPerUnit']")).SendKeys("35");
-            driver.FindElement(By.XPath("//input[@id='UnitsInStock']")).SendKeys("1");
-            driver.FindElement(By.XPath("//input[@id='UnitsOnOrder']")).SendKeys("1321");
-            driver.FindElement(By.XPath("//input[@id='ReorderLevel']")).SendKeys("1");
-            driver.FindElement(By.XPath("//input[@id='Discontinued']")).Click();
-            driver.FindElement(By.XPath("//input[@class='btn btn-default']")).Click();
-            var allPrElement = driver.FindElement(By.XPath("//h2[contains(text(),'All Products')]"));
-            Assert.IsTrue("All Products" == allPrElement.Text);
+            pageAllProducts = new PageAllProducts(driver);
+            pageCreate = new PageCreate(driver);
+            pageHomePage = new PageHomePage(driver);
+            Assert.IsTrue(hPageElement == pageHomePage.GetHomePage());
+            pageHomePage.MoveToAllProducts();
+            pageAllProducts.MoveToCreate();
+            pageCreate.CreateNewProduct(pName, catV, supV, uPrice, qPerUnit, uInStock, uOnOrder, rLevel, discontinued);
+            Assert.IsTrue(allPrElement == pageAllProducts.GetAllProducts());
         }
         [Test, Order(2)]
         public void TestOpenProduct()
         {
-            driver.FindElement(By.XPath("//div[2]/div[1]/a[@href='/Product']")).Click();
-            driver.FindElement(By.XPath("//a[contains(text(),'addfortest')]")).Click();
-            var pNameElement = driver.FindElement(By.XPath("//input[@id='ProductName']"));
-            Assert.IsTrue("addfortest" == pNameElement.GetAttribute("value"));
-            var catElement = driver.FindElement(By.XPath("//select[@id='CategoryId']//option[@selected='selected']"));
-            Assert.IsTrue("2" == catElement.GetAttribute("value"));
-            var supElement = driver.FindElement(By.XPath("//select[@id='SupplierId']//option[@selected='selected']"));
-            Assert.IsTrue("3" == supElement.GetAttribute("value"));
-            var uPriceElement = driver.FindElement(By.XPath("//input[@id='UnitPrice']"));
-            Assert.IsTrue("300,0000" == uPriceElement.GetAttribute("value"));
-            var qPerUnitElement = driver.FindElement(By.XPath("//input[@id='QuantityPerUnit']"));
-            Assert.IsTrue("35" == qPerUnitElement.GetAttribute("value"));
-            var uStockElement = driver.FindElement(By.XPath("//input[@id='UnitsInStock']"));
-            Assert.IsTrue("1" == uStockElement.GetAttribute("value"));
-            var uOrderElement = driver.FindElement(By.XPath("//input[@id='UnitsOnOrder']"));
-            Assert.IsTrue("1321" == uOrderElement.GetAttribute("value"));
-            var rLevelElement = driver.FindElement(By.XPath("//input[@id='ReorderLevel']"));
-            Assert.IsTrue("1" == rLevelElement.GetAttribute("value"));
-            var disconElement = driver.FindElement(By.XPath("//input[@id='Discontinued']"));
-            Assert.IsTrue("true" == disconElement.GetAttribute("value"));
+            pageAllProducts = new PageAllProducts(driver);
+            pageHomePage = new PageHomePage(driver);
+            pageEditProduct = new PageEditProduct(driver);
+            pageHomePage.MoveToAllProducts();
+            pageAllProducts.MoveToProduct(pName);
+            Assert.IsTrue(pName == pageEditProduct.GetProductName());
+            Assert.IsTrue(catV == pageEditProduct.GetCategoryId());
+            Assert.IsTrue(supV == pageEditProduct.GetSupplierId());
+            Assert.IsTrue(uPrice + ",0000" == pageEditProduct.GetUnitPrice());
+            Assert.IsTrue(qPerUnit == pageEditProduct.GetQuantityPerUnit());
+            Assert.IsTrue(uInStock == pageEditProduct.GetUnitsInStock());
+            Assert.IsTrue(uOnOrder == pageEditProduct.GetUnitsOnOrder());
+            Assert.IsTrue(rLevel == pageEditProduct.GetReorderLevel());
+            Assert.IsTrue(discontinued ==pageEditProduct.GetDiscontinued());
         }
         [Test, Order(3)]
         public void TestDeleteLogout()
         {
-            driver.FindElement(By.XPath("//div[2]/div[1]/a[@href='/Product']")).Click();
-            driver.FindElement(By.XPath("//following-sibling::tr/td[contains(.,'addfortest')]/../td/a[contains(text(),'Remove')]")).Click();
-            driver.SwitchTo().Alert().Accept();
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//td[contains(.,'addfortest')]")));
-            Assert.False(IsElementPresent(By.XPath("//td[contains(.,'addfortest')]")));
-            driver.FindElement(By.XPath("//a[@href='/Account/Logout']")).Click();
-            var loginElement = driver.FindElement(By.XPath("//h2[contains(text(),'Login')]"));
-            Assert.IsTrue("Login" == loginElement.Text);
+            forMetods = new ForMetods(driver);
+            pageAllProducts = new PageAllProducts(driver);
+            pageHomePage = new PageHomePage(driver);
+            pageLogin = new PageLogin(driver);
+            pageHomePage.MoveToAllProducts();
+            pageAllProducts.RemoveProduct(pName);
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.XPath(pageAllProducts.XpathProduct(pName))));
+            Assert.False(forMetods.IsElementPresent(By.XPath(pageAllProducts.XpathProduct(pName))));
+            pageAllProducts.Logout();
+            Assert.IsTrue(titelLogin == pageLogin.TitelLogin());
         }
         [TearDown]
         public void CleanUp()
