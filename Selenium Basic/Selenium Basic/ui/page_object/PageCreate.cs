@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Security;
 using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using Selenium_Basic.business_object;
 
 namespace Selenium_Basic
 {
@@ -13,8 +15,8 @@ namespace Selenium_Basic
         {
             this.driver = driver;
         }
-        private string catXpath = "//select[@id='CategoryId']//option[@value='2']";
-        private string supXpath = "//select[@id='SupplierId']//option[@value='3']";
+        private string catXpath ;
+        private string supXpath ;
         private IWebElement productName => driver.FindElement(By.XPath("//input[@id='ProductName']"));
         private IWebElement categoryId => driver.FindElement(By.XPath(catXpath));
         private IWebElement supplierId => driver.FindElement(By.XPath(supXpath));
@@ -26,20 +28,19 @@ namespace Selenium_Basic
         private IWebElement discontinued => driver.FindElement(By.XPath("//input[@id='Discontinued']"));
         private IWebElement buttonCreate => driver.FindElement(By.XPath("//input[@class='btn btn-default']"));
         
-        public PageAllProducts CreateNewProduct(string pName, string catV, string supV, string uPrice,
-             string qPerUnit, string uInStock, string uOnOrder, string rLevel, string discont)
+        public PageAllProducts CreateNewProduct(ProductForTest productForTest)
         {
-            catXpath = "//select[@id='CategoryId']//option[@value='" + catV + "']";
-            supXpath = "//select[@id='SupplierId']//option[@value='" + supV + "']";
-            productName.SendKeys(pName);
+            catXpath = $"//select[@id='CategoryId']//option[@value=\"{productForTest.catVal}\"]";
+            supXpath = $"//select[@id='SupplierId']//option[@value=\"{productForTest.supVal}\"]";
+            productName.SendKeys(productForTest.prName);
             categoryId.Click();
             supplierId.Click();
-            unitPrice.SendKeys(uPrice);
-            quantityPerUnit.SendKeys(qPerUnit);
-            unitsInStock.SendKeys(uInStock);
-            unitsOnOrder.SendKeys(uOnOrder);
-            reorderLevel.SendKeys(rLevel);
-            if (discont == "true")
+            unitPrice.SendKeys(productForTest.unPrice);
+            quantityPerUnit.SendKeys(productForTest.quPerUnit);
+            unitsInStock.SendKeys(productForTest.unInStock);
+            unitsOnOrder.SendKeys(productForTest.unOnOrder);
+            reorderLevel.SendKeys(productForTest.reLevel);
+            if (productForTest.discont == "true")
             {
                discontinued.Click();
             }

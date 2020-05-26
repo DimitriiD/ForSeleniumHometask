@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
+﻿using OpenQA.Selenium;
+using Selenium_Basic.business_object;
+
 namespace Selenium_Basic
 {
     class PageAllProducts
@@ -25,9 +23,9 @@ namespace Selenium_Basic
             create.Click();
             return new PageCreate(driver);
         }
-        public PageEditProduct MoveToProduct(string nProd)
+        public PageEditProduct MoveToProduct(ProductForTest productForTest)
         {
-            proXpath = "//a[contains(text(),'" + nProd + "')]";
+            proXpath = $"//a[contains(text(),\"{productForTest.prName }\")]";
             productName.Click();
             return new PageEditProduct(driver);
         }
@@ -35,15 +33,15 @@ namespace Selenium_Basic
         {
             return (allProducts.Text);
         }
-        public void RemoveProduct (string nProd)
+        public void RemoveProduct (ProductForTest productForTest)
         {
-            proXPathForRem = "//following-sibling::tr/td[contains(.,'" + nProd + "')]/../td/a[contains(text(),'Remove')]";
+            proXPathForRem = $"//following-sibling::tr/td[contains(.,\"{productForTest.prName }\")]/../td/a[contains(text(),'Remove')]";
             productRemove.Click();
             driver.SwitchTo().Alert().Accept();
         }
-        public string XpathProduct (string nProd)
+        public string xpathProduct (ProductForTest productForTest)
         {
-            return proXpath = "//a[contains(text(),'" + nProd + "')]";
+            return proXpath = $"//a[contains(text(),\"{productForTest.prName }\")]";
         }
         public PageLogin Logout ()
         {
