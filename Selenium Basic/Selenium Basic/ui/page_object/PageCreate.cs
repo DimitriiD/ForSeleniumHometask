@@ -15,11 +15,11 @@ namespace Selenium_Basic
         {
             this.driver = driver;
         }
-        private string catXpath ;
-        private string supXpath ;
+        private string categoryXpath;
+        private string supplierXpath;
         private IWebElement productName => driver.FindElement(By.XPath("//input[@id='ProductName']"));
-        private IWebElement categoryId => driver.FindElement(By.XPath(catXpath));
-        private IWebElement supplierId => driver.FindElement(By.XPath(supXpath));
+        private IWebElement categoryId => driver.FindElement(By.XPath(categoryXpath));
+        private IWebElement supplierId => driver.FindElement(By.XPath(supplierXpath));
         private IWebElement unitPrice => driver.FindElement(By.XPath("//input[@id='UnitPrice']"));
         private IWebElement quantityPerUnit => driver.FindElement(By.XPath("//input[@id='QuantityPerUnit']"));
         private IWebElement unitsInStock => driver.FindElement(By.XPath("//input[@id='UnitsInStock']"));
@@ -28,19 +28,19 @@ namespace Selenium_Basic
         private IWebElement discontinued => driver.FindElement(By.XPath("//input[@id='Discontinued']"));
         private IWebElement buttonCreate => driver.FindElement(By.XPath("//input[@class='btn btn-default']"));
         
-        public PageAllProducts CreateNewProduct(ProductForTest productForTest)
+        public PageAllProducts CreateNewProduct(AddProductForTest productForTest)
         {
-            catXpath = $"//select[@id='CategoryId']//option[@value=\"{productForTest.catVal}\"]";
-            supXpath = $"//select[@id='SupplierId']//option[@value=\"{productForTest.supVal}\"]";
-            productName.SendKeys(productForTest.prName);
+            categoryXpath = $"//select[@id='CategoryId']//option[@value=\"{productForTest.categoryValue}\"]";
+            supplierXpath = $"//select[@id='SupplierId']//option[@value=\"{productForTest.supplierValue}\"]";
+            productName.SendKeys(productForTest.productName);
             categoryId.Click();
             supplierId.Click();
-            unitPrice.SendKeys(productForTest.unPrice);
-            quantityPerUnit.SendKeys(productForTest.quPerUnit);
-            unitsInStock.SendKeys(productForTest.unInStock);
-            unitsOnOrder.SendKeys(productForTest.unOnOrder);
-            reorderLevel.SendKeys(productForTest.reLevel);
-            if (productForTest.discont == "true")
+            unitPrice.SendKeys(productForTest.unitPrice);
+            quantityPerUnit.SendKeys(productForTest.quantityPerUnit);
+            unitsInStock.SendKeys(productForTest.unitsInStock);
+            unitsOnOrder.SendKeys(productForTest.unitsOnOrder);
+            reorderLevel.SendKeys(productForTest.reorderLevel);
+            if (productForTest.discontinued == "true")
             {
                discontinued.Click();
             }

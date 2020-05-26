@@ -10,22 +10,22 @@ namespace Selenium_Basic
         {
             this.driver = driver;
         }
-        private string proXpath = "//a[contains(text(),'addfortest')]";
-        private string proXPathForRem = "//following-sibling::tr/td[contains(.,'addfortest')]/../td/a[contains(text(),'Remove')]";
+        private string productXpath;
+        private string productXPathForRemove;
         private IWebElement create => driver.FindElement(By.XPath("//a[@href='/Product/Create']"));
         private IWebElement allProducts => driver.FindElement(By.XPath("//h2[contains(text(),'All Products')]"));
-        private IWebElement productName => driver.FindElement(By.XPath(proXpath));
-        private IWebElement productRemove => driver.FindElement(By.XPath(proXPathForRem));
-        private IWebElement lgout => driver.FindElement(By.XPath("//a[@href='/Account/Logout']"));
+        private IWebElement productName => driver.FindElement(By.XPath(productXpath));
+        private IWebElement productRemove => driver.FindElement(By.XPath(productXPathForRemove));
+        private IWebElement logout => driver.FindElement(By.XPath("//a[@href='/Account/Logout']"));
 
         public PageCreate MoveToCreate()
         {
             create.Click();
             return new PageCreate(driver);
         }
-        public PageEditProduct MoveToProduct(ProductForTest productForTest)
+        public PageEditProduct MoveToProduct(AddProductForTest productForTest)
         {
-            proXpath = $"//a[contains(text(),\"{productForTest.prName }\")]";
+            productXpath = $"//a[contains(text(),\"{productForTest.productName }\")]";
             productName.Click();
             return new PageEditProduct(driver);
         }
@@ -33,19 +33,19 @@ namespace Selenium_Basic
         {
             return (allProducts.Text);
         }
-        public void RemoveProduct (ProductForTest productForTest)
+        public void RemoveProduct (AddProductForTest productForTest)
         {
-            proXPathForRem = $"//following-sibling::tr/td[contains(.,\"{productForTest.prName }\")]/../td/a[contains(text(),'Remove')]";
+            productXPathForRemove = $"//following-sibling::tr/td[contains(.,\"{productForTest.productName }\")]/../td/a[contains(text(),'Remove')]";
             productRemove.Click();
             driver.SwitchTo().Alert().Accept();
         }
-        public string xpathProduct (ProductForTest productForTest)
+        public string xpathProduct (AddProductForTest productForTest)
         {
-            return proXpath = $"//a[contains(text(),\"{productForTest.prName }\")]";
+            return productXpath = $"//a[contains(text(),\"{productForTest.productName }\")]";
         }
         public PageLogin Logout ()
         {
-            lgout.Click();
+            logout.Click();
             return new PageLogin(driver);
         }
     }

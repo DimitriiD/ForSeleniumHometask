@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using Selenium_Basic.service.ui;
 
 namespace Selenium_Basic
 {
@@ -22,41 +23,13 @@ namespace Selenium_Basic
         private IWebElement unitsOnOrder => driver.FindElement(By.XPath("//input[@id='UnitsOnOrder']"));
         private IWebElement reorderLevel => driver.FindElement(By.XPath("//input[@id='ReorderLevel']"));
         private IWebElement discontinued => driver.FindElement(By.XPath("//input[@id='Discontinued']"));
-        public string GetProductName ()
+        
+        public GetProductForTest ReadProduct()
         {
-            return productName.GetAttribute("value");
-        }
-        public string GetCategoryId()
-        {
-            return categoryId.GetAttribute("value");
-        }
-        public string GetSupplierId()
-        {
-            return supplierId.GetAttribute("value");
-        }
-        public string GetUnitPrice()
-        {
-            return unitPrice.GetAttribute("value");
-        }
-        public string GetQuantityPerUnit()
-        {
-            return quantityPerUnit.GetAttribute("value");
-        }
-        public string GetUnitsInStock()
-        {
-            return unitsInStock.GetAttribute("value");
-        }
-        public string GetUnitsOnOrder()
-        {
-            return unitsOnOrder.GetAttribute("value");
-        }
-        public string GetReorderLevel()
-        {
-            return reorderLevel.GetAttribute("value");
-        }
-        public string GetDiscontinued()
-        {
-            return discontinued.GetAttribute("value");
+            GetProductForTest getProductForTest = new GetProductForTest(productName.GetAttribute("value"), categoryId.GetAttribute("value"), supplierId.GetAttribute("value"),
+               unitPrice.GetAttribute("value"), quantityPerUnit.GetAttribute("value"), unitsInStock.GetAttribute("value"), 
+               unitsOnOrder.GetAttribute("value"),reorderLevel.GetAttribute("value"), discontinued.GetAttribute("value"));
+            return getProductForTest;
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Selenium_Basic.ui.page_elements
 {
-    class HomePagePageElm
+    class HomePagePageElement
     {
         public string homePageElement { get; set; }
 
-        public HomePagePageElm (string homePageElement)
+        public HomePagePageElement (string homePageElement)
         {
             this.homePageElement = homePageElement;
         }

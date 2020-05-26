@@ -27,7 +27,7 @@ namespace Selenium_Basic.Test
         [SetUp]
         public void Login()
         {
-            WorkWithBD.LoginToBD(user, driver);
+            WorkWithDataBase.LoginToDataBase(user, driver);
         }
         [TearDown]
         public void CleanUp()

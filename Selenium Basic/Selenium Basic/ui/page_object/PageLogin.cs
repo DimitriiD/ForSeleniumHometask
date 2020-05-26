@@ -15,20 +15,20 @@ namespace Selenium_Basic
         {
             this.driver = driver;
         }
-        private IWebElement logName => driver.FindElement(By.XPath("//input[@id='Name']"));
-        private IWebElement logPassword => driver.FindElement(By.XPath("//input[@id='Password']"));
-        private IWebElement logButton => driver.FindElement(By.XPath("//input[@class='btn btn-default']"));
-        private IWebElement ttelLogin => driver.FindElement(By.XPath("//h2[contains(text(),'Login')]"));
+        private IWebElement loginName => driver.FindElement(By.XPath("//input[@id='Name']"));
+        private IWebElement loginPassword => driver.FindElement(By.XPath("//input[@id='Password']"));
+        private IWebElement loginButton => driver.FindElement(By.XPath("//input[@class='btn btn-default']"));
+        private IWebElement titelLogin => driver.FindElement(By.XPath("//h2[contains(text(),'Login')]"));
         public PageHomePage LoginNwApp (User userdata)
         {
-            new Actions(driver).Click(logName).SendKeys(userdata.login).Build().Perform();
-            new Actions(driver).Click(logPassword).SendKeys(userdata.password).Build().Perform();
-            new Actions(driver).Click(logButton).Build().Perform();
+            new Actions(driver).Click(loginName).SendKeys(userdata.login).Build().Perform();
+            new Actions(driver).Click(loginPassword).SendKeys(userdata.password).Build().Perform();
+            new Actions(driver).Click(loginButton).Build().Perform();
             return new PageHomePage(driver);
         }
         public string TitelLogin()
         {
-            return ttelLogin.Text;
+            return titelLogin.Text;
         }
     }
 }
