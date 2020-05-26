@@ -9,7 +9,7 @@ namespace Selenium_Basic
     public class Tests: BaseTest
     {
         private ForMetods forMetods;
-        AddProductForTest productToAdd = new AddProductForTest( "addfortest", "3", "4", "300", "35","1", "1321",
+        ProductForTest productToAdd = new ProductForTest( "addfortest", "3", "4", "300", "35","1", "1321",
         "1", "true");
         AllProductPageElement pageElementAllProduct = new AllProductPageElement("All Products");
         LoginPageElement loginPageElement = new LoginPageElement("Login");
@@ -27,15 +27,16 @@ namespace Selenium_Basic
         public void TestOpenProduct()
         {
             WorkWithDataBase.OpenPageEditProd(productToAdd, driver);
-            Assert.IsTrue(productToAdd.productName == GetData.ReadProduct(driver).getProductName);
-            Assert.IsTrue(productToAdd.categoryValue == GetData.ReadProduct(driver).getCategoryValue);
-            Assert.IsTrue(productToAdd.supplierValue == GetData.ReadProduct(driver).getSupplierValue);
-            Assert.IsTrue(productToAdd.unitPrice + ",0000" == GetData.ReadProduct(driver).getUnitPrice);
-            Assert.IsTrue(productToAdd.quantityPerUnit == GetData.ReadProduct(driver).getQuantityPerUnit);
-            Assert.IsTrue(productToAdd.unitsInStock == GetData.ReadProduct(driver).getUnitsInStock);
-            Assert.IsTrue(productToAdd.unitsOnOrder == GetData.ReadProduct(driver).getUnitsOnOrder);
-            Assert.IsTrue(productToAdd.reorderLevel == GetData.ReadProduct(driver).getReorderLevel);
-            Assert.IsTrue(productToAdd.discontinued == GetData.ReadProduct(driver).getDiscontinued);
+            ProductForTest productForTest = GetData.ReadProduct(driver);
+            Assert.AreEqual(productToAdd.productName,productForTest.productName);
+            Assert.AreEqual(productToAdd.categoryValue, productForTest.categoryValue);
+            Assert.AreEqual(productToAdd.supplierValue, productForTest.supplierValue);
+            Assert.AreEqual(productToAdd.unitPrice, productForTest.unitPrice);
+            Assert.AreEqual(productToAdd.quantityPerUnit, productForTest.quantityPerUnit);
+            Assert.AreEqual(productToAdd.unitsInStock, productForTest.unitsInStock);
+            Assert.AreEqual(productToAdd.unitsOnOrder, productForTest.unitsOnOrder);
+            Assert.AreEqual(productToAdd.reorderLevel, productForTest.reorderLevel);
+            Assert.AreEqual(productToAdd.discontinued, productForTest.discontinued);
         }
         [Test, Order(3)]
         public void TestDeleteLogout()

@@ -23,7 +23,7 @@ namespace Selenium_Basic
             create.Click();
             return new PageCreate(driver);
         }
-        public PageEditProduct MoveToProduct(AddProductForTest productForTest)
+        public PageEditProduct MoveToProduct(ProductForTest productForTest)
         {
             productXpath = $"//a[contains(text(),\"{productForTest.productName }\")]";
             productName.Click();
@@ -33,13 +33,13 @@ namespace Selenium_Basic
         {
             return (allProducts.Text);
         }
-        public void RemoveProduct (AddProductForTest productForTest)
+        public void RemoveProduct (ProductForTest productForTest)
         {
             productXPathForRemove = $"//following-sibling::tr/td[contains(.,\"{productForTest.productName }\")]/../td/a[contains(text(),'Remove')]";
             productRemove.Click();
             driver.SwitchTo().Alert().Accept();
         }
-        public string xpathProduct (AddProductForTest productForTest)
+        public string xpathProduct (ProductForTest productForTest)
         {
             return productXpath = $"//a[contains(text(),\"{productForTest.productName }\")]";
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using Selenium_Basic.business_object;
 using Selenium_Basic.service.ui;
 
 namespace Selenium_Basic
@@ -24,10 +25,10 @@ namespace Selenium_Basic
         private IWebElement reorderLevel => driver.FindElement(By.XPath("//input[@id='ReorderLevel']"));
         private IWebElement discontinued => driver.FindElement(By.XPath("//input[@id='Discontinued']"));
         
-        public GetProductForTest ReadProduct()
+        public ProductForTest ReadProduct()
         {
-            GetProductForTest getProductForTest = new GetProductForTest(productName.GetAttribute("value"), categoryId.GetAttribute("value"), supplierId.GetAttribute("value"),
-               unitPrice.GetAttribute("value"), quantityPerUnit.GetAttribute("value"), unitsInStock.GetAttribute("value"), 
+            ProductForTest getProductForTest = new ProductForTest(productName.GetAttribute("value"), categoryId.GetAttribute("value"), supplierId.GetAttribute("value"),
+               unitPrice.GetAttribute("value").Replace(",0000",""), quantityPerUnit.GetAttribute("value"), unitsInStock.GetAttribute("value"),
                unitsOnOrder.GetAttribute("value"),reorderLevel.GetAttribute("value"), discontinued.GetAttribute("value"));
             return getProductForTest;
         }

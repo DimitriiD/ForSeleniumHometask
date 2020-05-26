@@ -28,7 +28,7 @@ namespace Selenium_Basic
         private IWebElement discontinued => driver.FindElement(By.XPath("//input[@id='Discontinued']"));
         private IWebElement buttonCreate => driver.FindElement(By.XPath("//input[@class='btn btn-default']"));
         
-        public PageAllProducts CreateNewProduct(AddProductForTest productForTest)
+        public PageAllProducts CreateNewProduct(ProductForTest productForTest)
         {
             categoryXpath = $"//select[@id='CategoryId']//option[@value=\"{productForTest.categoryValue}\"]";
             supplierXpath = $"//select[@id='SupplierId']//option[@value=\"{productForTest.supplierValue}\"]";

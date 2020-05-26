@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Selenium_Basic.business_object
 {
-    class AddProductForTest
+    class ProductForTest
     {
                    
         public string productName { get; set; }
@@ -25,7 +25,7 @@ namespace Selenium_Basic.business_object
         
         public string discontinued { get; set; } 
         
-        public AddProductForTest(string productName, string categoryValue, string supplierValue, string unitPrice, string quantityPerUnit, 
+        public ProductForTest(string productName, string categoryValue, string supplierValue, string unitPrice, string quantityPerUnit, 
             string unitsInStock, string unitsOnOrder, string reorderLevel, string discontinued)
         {
             this.productName = productName;

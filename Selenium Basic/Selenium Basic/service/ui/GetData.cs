@@ -15,7 +15,7 @@ namespace Selenium_Basic.service.ui
             PageAllProducts pageAllProducts = new PageAllProducts(driver);
             return pageAllProducts.GetAllProducts();
         }
-        public static GetProductForTest ReadProduct(IWebDriver driver)
+        public static ProductForTest ReadProduct(IWebDriver driver)
         {
             PageEditProduct pageEditProduct = new PageEditProduct(driver);
             return pageEditProduct.ReadProduct();
@@ -25,7 +25,7 @@ namespace Selenium_Basic.service.ui
             PageLogin pageLogin = new PageLogin(driver);
             return pageLogin.TitelLogin();
         }
-        public static string xpathProduct(AddProductForTest productToAdd, IWebDriver driver)
+        public static string xpathProduct(ProductForTest productToAdd, IWebDriver driver)
         {
             PageAllProducts pageAllProducts = new PageAllProducts(driver);
             return pageAllProducts.xpathProduct(productToAdd);
