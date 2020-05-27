@@ -23,8 +23,8 @@ namespace Selenium_Basic.business_object
         
         public string reorderLevel { get; set; }
         
-        public string discontinued { get; set; } 
-        
+        public string discontinued { get; set; }
+
         public ProductForTest(string productName, string categoryValue, string supplierValue, string unitPrice, string quantityPerUnit, 
             string unitsInStock, string unitsOnOrder, string reorderLevel, string discontinued)
         {
@@ -38,5 +38,15 @@ namespace Selenium_Basic.business_object
             this.reorderLevel = reorderLevel;
             this.discontinued = discontinued;
         }
+        public double re, im;
+        public override bool Equals(object obj)
+        {
+            return obj is ProductForTest && this == (ProductForTest)obj;
+        }
+        public override int GetHashCode()
+        {
+            return Tuple.Create(re, im).GetHashCode();
+        }
+
     }
 }
